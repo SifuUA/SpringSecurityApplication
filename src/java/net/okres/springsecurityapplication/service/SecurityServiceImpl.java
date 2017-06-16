@@ -11,25 +11,30 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by Alex on 15.06.2017.
+ * Implementation of {@link SecurityService} interface.
+ *
+ * @author Eugene Suleimanov
+ * @version 1.0
  */
 
 @Service
-public class SecurityServiceImpl implements SecurityService{
+public class SecurityServiceImpl implements SecurityService {
 
-    private  static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);//logirovanie
+    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
     @Override
     public String findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();//poluchaem detali nashego usera
-        if (userDetails instanceof UserDetails){
-            return ((UserDetails)userDetails).getUsername();//poluchenie imeni zaloginenogo usera
+        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+        if (userDetails instanceof UserDetails) {
+            return ((UserDetails) userDetails).getUsername();
         }
+
         return null;
     }
 
@@ -38,13 +43,13 @@ public class SecurityServiceImpl implements SecurityService{
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-        // peredaem prava(name, password, razreshenie)
-        authenticationManager.authenticate(authenticationToken);//avtorizaciya
 
-        if (authenticationToken.isAuthenticated()){
+        authenticationManager.authenticate(authenticationToken);
+
+        if (authenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-            logger.debug(String.format("Successfully %s auto logged in.", username));
+            logger.debug(String.format("Successfully %s auto logged in", username));
         }
     }
 }

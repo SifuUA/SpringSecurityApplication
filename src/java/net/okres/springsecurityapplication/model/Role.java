@@ -1,17 +1,14 @@
 package net.okres.springsecurityapplication.model;
 
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by Alex on 15.06.2017.
- */
 
 @Entity
 @Table(name = "roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

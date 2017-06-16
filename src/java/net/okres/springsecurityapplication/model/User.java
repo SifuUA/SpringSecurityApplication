@@ -3,12 +3,9 @@ package net.okres.springsecurityapplication.model;
 import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by Alex on 15.06.2017.
- */
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -25,12 +22,9 @@ public class User {
     private String confirmPassword;
 
     @ManyToMany
-    @JoinTable(name ="user_roles", joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    Set<Role> roles;
-
-    public User() {
-    }
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public Long getId() {
         return id;
@@ -70,16 +64,5 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                ", roles=" + roles +
-                '}';
     }
 }
